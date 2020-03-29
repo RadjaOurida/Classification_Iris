@@ -1,32 +1,32 @@
-#Nous allons prendre le dataset iris.csv comme nom de dataset dans la suite de klk une de ces commandes
+# Prendre le dataset iris.csv
 
-#Help sur des librairies ou des mÈthodes : help(nomMethode)
+#Help sur des librairies ou des m√©thodes : help(nomMethode)
  help(rpart) 
  help(rpart.control)
 
 #Importer un dataset dans R
-    data(iris)
+  data(iris)
 
 #Afficher tous le dataset 
   iris
 
-#Afficher klk lignes du dataset avec toutes les colonnes : iris[1:numero de la derniËre ligne,]
+#Afficher klk lignes du dataset avec toutes les colonnes : iris[1:numero de la derni√®re ligne,]
   iris[1:10,]
 
 #Afficher klk colonnes seulement   
   iris[,2:5]
 
-#Afficher klk lignes du dataset avec klk  colonnes : iris[numero de la 1er ligne:numero de la derniËre ligne,numero de la 1er colonne:numero de la derniËre colonne]
+#Afficher klk lignes du dataset avec klk  colonnes : iris[numero de la 1er ligne:numero de la derni√®re ligne,numero de la 1er colonne:numero de la derni√®re colonne]
    iris[2:25, 1:4]
 
-#Afficher les n=3 premiËre ligne du sataset avec tt ses colones
+#Afficher les n=3 premi√®re ligne du sataset avec tt ses colones
  head(iris,3)
 
-#Selectionner des attribus ie au lieu de les afficher on les met dans une variable "dataIris" ; 
+#Selectionner des attribus iet on les met dans une variable "dataIris" ; 
 #dataIris contient tt les lignes et klk colonnes
  dataIris =iris[,2:5]
 
-# Nature des attribus ie affiche moi la class ou le type des colonnes de cet ensemble de donnÈe
+# Nature des attribus ie afficher le type des colonnes de cet ensemble de donn√©e
  lapply (iris,class)
  lapply(dataIris,class)
 
@@ -35,8 +35,8 @@
  nbrLigne=dim(iris)[1]
  nbrAttribut=dim(iris)[2]
 
-#Graphe d'un dataset, d'une partie du dataset ou de deux attributs, on affiche chacun des attribut par rapport ‡ 
-#la sortie, on peut dÈduire les best features 
+#Graphe d'un dataset, d'une partie du dataset ou de deux attributs, on affiche chacun des attribut par rapport √† 
+#la sortie
  plot(iris)
  plot(dataIris)
  plot(iris$Sepal.Length,iris$Sepal.Width)
@@ -46,55 +46,55 @@ irisMoins=iris[,-2]
 irisMoins =iris[1:150,-2] #c'est l'ekivalent du 1er
 
 
-#  Apprentissage supervisÈ : Arbre de dÈcision, Foret AlÈatoire......
+#  Apprentissage supervis√© : Arbre de d√©cision, Foret Al√©atoire......
 
 
-########################################################### Arbre de dÈcision 'Decision tree'####################################################################
+########################################################### Arbre de d√©cision 'Decision tree'#######################################
 
-#Nous allons utiliser rpart et rpart.plot, on doit donc importer ces deux packages 
+# utiliser rpart et rpart.plot, on doit donc importer ces deux packages 
  library(rpart)
  library(rpart.plot)
 
-#Pour afficher du dÈtails sur rpart et rpart.control
+#Pour afficher les d√©tails sur rpart et rpart.control
  help(rpart) 
 
-#Importer les donnÈes ou le dataset sur leuel nous allons travailler
+#Importer les donn√©es ou le dataset sur leuel nous allons travailler
  data(iris)
 
-#===============================CrÈer l'arbre de dÈcision simple
+#===============================Cr√©er l'arbre de d√©cision simple
  irisTree=rpart(Species~., data=iris)
 
-#Afficher l'arbre de dÈcision crÈe 
+#Afficher l'arbre de d√©cision cr√©e 
  plot(irisTree)
- text(irisTree) #pour ÈtikitÈ les noeuds
+ text(irisTree) #pour √©tiqit√© les noeuds
 
-#La prÈdiction
+#La pr√©diction
 predict(irisTree, iris[1:150,],type="class")
 
 #La table de confusion, pour voir si l'arbre est efficace ou non
  table(iris$Species,predict(irisree,iris[1:150,],type="class"))
 
-#==============================CrÈer l'arbre de dÈcision avec selection d'attribut
+#==============================Cr√©er l'arbre de d√©cision avec selection d'attribut
 
-#Faire une selection d'attribut, les attribut kui ont contribuer dans l'arbre prÈcedant pour arriver directement au rÈsultat voulu
+#Faire une selection d'attribut, les attribut qui ont contribu√© dans l'arbre pr√©cedant pour arriver directement au r√©sultat voulu
 
  irisSelect=iris[,3:5]
  irisTree=rpart(Species~., data=irisSelect)
  plot(irisTree)
- text(irisTree) #pour ÈtikitÈ les noeuds
+ text(irisTree) #pour √©tikit√© les noeuds
  prediction =predict(irisTree, irisSelect[1:150,],type="class")
  table(irisSelect$Species,prediction)
 
-#Nous retrouvons le meme arbre et la meme table de dÈcision car l'arbre de dÈcision se base sur 
-#la selection d'attribut d'ailleurs on remark kue dans le code prÈcedant il a choisit les attribut
-#les plus pÈrtinent.
+#Nous retrouvons le meme arbre et la meme table de d√©cision car l'arbre de d√©cision se base sur 
+#la selection d'attribut d'ailleurs on remarque que dans le code pr√©cedant il a choisit les attribut
+#les plus p√©rtinent.
 
 
 
-##===============================crÈer un arbre avec klk controle (ajouter des contraintes pour obtenir un arbre elaguÈ ie plus prÈcis)
-#cp c'est le taux d'erreur minimum dans cha9ue noeud si taux d'erreur pour l'une des var > cp continuer ‡ elaguer l'arbre 
-# nsplit: le nombre minimum d'observations(ligne) dans un noeud si nbrLigne=nsplit et tauxErreur>cp ne pas Èlaguer l'arbre, si nbrLigne=nsplit et tauxErreur>cp elaguer
-#Pour avoir un arbre kui donne une prÈcision ‡ 100% on met minsplit=0, cp=0) mais si le dataset est grand l'arbre sera trËs grand
+##===============================cr√©er un arbre avec klk controle (ajouter des contraintes pour obtenir un arbre elagu√© ie plus pr√©cis)
+#cp c'est le taux d'erreur minimum dans chaque noeud si taux d'erreur pour l'une des var > cp continuer √† elaguer l'arbre 
+# nsplit: le nombre minimum d'observations(ligne) dans un noeud si nbrLigne=nsplit et tauxErreur>cp ne pas √©laguer l'arbre, si nbrLigne=nsplit et tauxErreur>cp elaguer
+#Pour avoir un arbre qui donne une pr√©cision √† 100% on met minsplit=0, cp=0) mais si le dataset est grand l'arbre sera tr√®s grand
 #In english it is called pruning
 
   irisTreeElague <- rpart(Species ~., data=iris, control=rpart.control(minsplit=5, cp =0.01)) 
@@ -104,21 +104,21 @@ predict(irisTree, iris[1:150,],type="class")
 #Afficher cet arbre avec des information sur les noeuds
  plot(irisTreeElague)
  text(irisTreeElague)
- prp(irisTreeElague) #afficher des noeus ronds
+ prp(irisTreeElague) #afficher des noeuds ronds
 
-#Afficher pour chakue noeud Ètape par Ètape sa construction (les taux d'erreurs ...etc)
+#Afficher pour chaque noeud √©tape par √©tape sa construction (les taux d'erreurs ...etc)
  print(irisTreeElague)
 
-#Presire des ÈlÈments du dataset ou tout le dataset iris par cet arbre la,il s'agit de jeter les ÈlÈments dans l'arbre puis comparer l'ÈlÈment de la feuille avec la sortie rÈelle 
+#Predire des √©l√©ments du dataset ou tout le dataset iris par cet arbre la,il s'agit de jeter les √©l√©ments dans l'arbre puis comparer l'√©l√©ment de la feuille avec la sortie r√©elle 
  predict(irisTreeElague, iris[1:150,],type="class")
 
 #La table de confusion, pour voir si l'arbre est efficace ou non
  table(iris$Species,predict(irisreeElargue,iris[1:150,],type="class"))
 
-# Le rÈsultat change en changeant les parametres du controle cp et minsplit et Áa donne de meilleurs rÈsultats par rapport aux premiËres mÈthodes.
+# Le r√©sultat change en changeant les parametres du controle cp et minsplit et √ßa donne de meilleurs r√©sultats par rapport aux premi√®res m√©thodes.
 
 
-##################################################### Foret alÈatoires 'Random forest'#############################################################################"
+##################################################### Foret al√©atoires 'Random forest'################################################
 
 labrary(randomForest)
 data(iris)
@@ -132,35 +132,35 @@ table(combintables $Species,combintables$prediction)
 
 #=============================Random forest avec envlopante (cross validation CV)
 
-#DÈviser le dataset en 0.7 et 0.3
+#D√©viser le dataset en 0.7 et 0.3
  n=dim(iris)[1] 
  index=sample(n , n*0.7)
 
-#crÈation des deux parties (apprentissage et test)
+#cr√©ation des deux parties (apprentissage et test)
  apprentissage = iris[index,]
  #x= apprentissage[,-5] y=  apprentissage$Outcome
  test = iris[-index, -5]
 #ou bien test2=iris[-index,] le resulat sera le meme
 
-#crÈation du modËle
+#cr√©ation du mod√®le
  #RandomF.model= train(x,y,'rf',trControl=trainControl(method='cv',number=10))
  RandomF.model=randomForest(Species~., data= apprentissage)
 
-#PrÈdir le test (ou test2 kifkif) par ce modËle le rÈsultat est pls ligne mais une seule colonne (species predites)
+#Pr√©dir le test (ou test2 kifkif) par ce mod√®le le r√©sultat est pls ligne mais une seule colonne (species predites)
 prediction = predict(object=RandomF.model,newdata= test)
 
 
-#Comparaison des sorties prÈdites et les vrai valeurs du test
-# pour cela combiner le tableau prediction avec test (Áa c'est obligatoire)
-#si on combine avec test2 les rÈsultat ne sera pas interessant car par la suite on souhaite faire une comparaison d'ou test 
+#Comparaison des sorties pr√©dites et les vrai valeurs du test
+# pour cela combiner le tableau prediction avec test (√ßa c'est obligatoire)
+#si on combine avec test2 les r√©sultat ne sera pas interessant car par la suite on souhaite faire une comparaison d'ou test 
  testPrediction= cbind(test, prediction )
  testPrediction
 
-#table de confusion entre les deux derniËre colonnes du tableau testpreiction ie Species et predict
+#table de confusion entre les deux derni√®re colonnes du tableau testpreiction ie Species et predict
  table(testPrediction$Species, testPrediction$prediction)
 
  
-############################################################ Naive Bayes '#####################################################################################"
+############################################################ Naive Bayes '#########################################################
 
 
 labrary(e1071)
@@ -170,11 +170,11 @@ data(iris)
 #creer le model naive bayes
  modelNB= naiveBayes(Species~., data=iris)
  NB
-#PrÈdire la sortie des donnÈes 
+#Pr√©dire la sortie des donn√©es 
  newdata= iris[100:150, -5]
  prediction= predict(modelNB, newdata)
 
-#combiner les classe prÈdite avec la partie du dataset pour comparer les sortie prÈdites et les vraies classes 
+#combiner les classe pr√©dite avec la partie du dataset pour comparer les sortie pr√©dites et les vraies classes 
  newDataPrediction = cbind(iris[100:150,], prediction)
  newDataPrediction
 
@@ -188,22 +188,22 @@ table(newDataPrediction$Species, newDataPrediction$prediction)
 
 #=============================Naive Bayes cross validation
 
-#DÈviser le dataset en 0.7 et 0.3
+#D√©viser le dataset en 0.7 et 0.3
  n=dim(iris)[1] 
  index=sample(n , n*0.7)
 
-#crÈation des deux parties (apprentissage et test)
+#cr√©ation des deux parties (apprentissage et test)
  apprentissage = iris[index,]
  x= apprentissage[,-5] 
  y= apprentissage$Outcome
  test = iris[-index,]
 #ou bien test2=iris[-index,-5] le resulat sera le meme
 
-#crÈation du modËle
+#cr√©ation du mod√®le
  # model= train(x,y,'nb',trControl=trainControl(method='cv',number=10)) on doit avoir un package kui contient train
  model= naiveBayes(Species~., data=apprentissage)
 
-#prÈdir le test 
+#pr√©dir le test 
  Predict <- predict(model,newdata = test)
 
 #table de confusion
@@ -226,7 +226,7 @@ table1 =table(pred, iris[1:2,5])
 
 
 
-############################################# RÈseau de Nerone ###############################################################################################
+############################################# R√©seau de Nerone ###############################################################################################
 
  library(nnet)
  data(iris)
