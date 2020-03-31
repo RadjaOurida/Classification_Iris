@@ -1,0 +1,5 @@
+#get the number of Missing Values
+num_missing_desc = data.isnull().sum()[2]    # No. of values with msising descriptions
+print('Number of missing values: ' + str(num_missing_desc))
+#delete the missing values 
+data = data.dropna()
